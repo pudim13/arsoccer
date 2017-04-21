@@ -113,7 +113,7 @@ window.onload = function() {
       v[1] = -v[1]*h2/v[3] + h2;
 
       console.log('Meu ID: ' + i + ', Meu X=' + v[0] + ' Y=' + v[1]);
-      markes.push({
+      markers.push({
         id: i,
         x: v[0],
         y: v[1]
