@@ -44,7 +44,7 @@ window.onload = function() {
     ctx.drawImage(video, 0,0,640,480);
   }
 
-  window.detectarCampo = function detectarCampo(markers) {
+  window.detectMarkers = function detectMarkers(markers) {
 
     updateCanvas(ctx, video);
     canvas.changed = true;
@@ -145,7 +145,7 @@ window.onload = function() {
               ctx.moveTo(v[0], v[1]);
             }
           });
-        ctx.closePath()
+        ctx.closePath();
         ctx.fillStyle = "white";
         ctx.fill();
       ctx.restore();
