@@ -1,4 +1,4 @@
-var STD_WIDTH_RECTANGLE = 75;
+var STD_WIDTH_RECTANGLE = 20;
 var SMALL_OBJECT = 25;
 var MEDIUM_OBJECT = 50;
 var LARGE_OBJECT = 75;
@@ -52,7 +52,7 @@ function drawRectangle(ctx,marker,size) {
   ctx.fill();
 
   ctx.fillStyle = "black";
-  ctx.fillText(marker.id,marker.x+(size/2),marker.y+(size/2));
+  ctx.fillText(marker.id,marker.x+(STD_WIDTH_RECTANGLE/2),marker.y+(size/2));
 }
 
 function drawGoal(ctx,marker) {
@@ -67,7 +67,7 @@ function drawGoal(ctx,marker) {
   ctx.fill();
 
   ctx.fillStyle = "red";
-  ctx.fillText(marker.id,marker.x+80,marker.y+80;
+  ctx.fillText(marker.id,marker.x,marker.y+80);
 }
 
 function drawGame(markers) {
@@ -79,30 +79,30 @@ function drawGame(markers) {
 
   for(var i=0;i<markers.length;i++) {
     //DRAWING SQUARES
-    if(marker[i].id == SQUARE_SMALL_ID) {
+    if(markers[i].id == SQUARE_SMALL_ID) {
       drawSquare(ctx, markers[i], SMALL_OBJECT);
     }
-    if(marker[i].id == SQUARE_MEDIUM_ID) {
+    if(markers[i].id == SQUARE_MEDIUM_ID) {
       drawSquare(ctx, markers[i], MEDIUM_OBJECT);
     }
-    if(marker[i].id == SQUARE_LARGE_ID) {
+    if(markers[i].id == SQUARE_LARGE_ID) {
       drawSquare(ctx, markers[i], LARGE_OBJECT);
     }
     //DRAWING RECTANGLES
-    if(marker[i].id == RECTANGLE_SMALL_ID) {
+    if(markers[i].id == RECTANGLE_SMALL_ID) {
       drawRectangle(ctx, markers[i], SMALL_OBJECT);
     }
-    if(marker[i].id == RECTANGLE_MEDIUM_ID) {
+    if(markers[i].id == RECTANGLE_MEDIUM_ID) {
       drawRectangle(ctx, markers[i], MEDIUM_OBJECT);
     }
-    if(marker[i].id == RECTANGLE_LARGE_ID) {
+    if(markers[i].id == RECTANGLE_LARGE_ID) {
       drawRectangle(ctx, markers[i], LARGE_OBJECT);
     }
     //DRAWING GOALS
-    if(marker[i].id == GOAL_ONE_ID) {
+    if(markers[i].id == GOAL_ONE_ID) {
       drawGoal(ctx, markers[i]);
     }
-    if(marker[i].id == GOAL_TWO_ID) {
+    if(markers[i].id == GOAL_TWO_ID) {
       drawGoal(ctx, markers[i]);
     }
   }
