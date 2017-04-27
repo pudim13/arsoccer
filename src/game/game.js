@@ -1,3 +1,10 @@
+var LITTLE_OBJECT = 25;
+var MEDIUM_OBJECT = 50;
+var LARGE_OBJECT = 75;
+
+
+var SQUARE_MEDIUM_ID = 12;
+
 function drawSquare(ctx,marker,size) {
   ctx.beginPath();
   ctx.moveTo(marker.x, marker.y);
@@ -21,7 +28,9 @@ function drawGame(markers) {
   ctx.font = "20px URW Gothic L, Arial, Sans-serif";
 
   for(var i=0;i<markers.length;i++) {
-    drawSquare(ctx, markers[i], 50);
+    if(marker[i].id == SQUARE_MEDIUM_ID) {
+      drawSquare(ctx, markers[i], MEDIUM_OBJECT);
+    }
   }
   ctx.restore();
 }
@@ -31,4 +40,10 @@ function startGame() {
     detectMarkers(markers);
 
     drawGame(markers);
+
+    setInterval(gameTick(),1);
+}
+
+function gameTick() {
+
 }
