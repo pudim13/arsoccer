@@ -6,8 +6,12 @@
 <script src="src/game/detector.js"></script>
 <script src="src/game/game.js"></script>
 </head>
-  <button onclick='startGame()'>Iniciar Jogo</button>
+  <button id="startButton" onclick='startGame()'>Iniciar Jogo</button>
+  <button id="play1" onclick='player1Play()' disabled>Disparar Jogador 1</button>
+  <button id="play2" onclick='player2Play()' disabled>Disparar Jogador 1</button>
+
   <canvas id='gameField' width='640' height='480'> </canvas>
 
   <img id="grass" src="resources/grama.jpg" width="640" height="480" style="display:none;"/>
+  <img id="mock" src="resources/mock.png" width="640" height="480" style="display:none;"/>
 </html>

@@ -41,11 +41,14 @@ window.onload = function() {
   var pastResults = {};
 
   function updateCanvas(ctx, video) {
-    ctx.drawImage(video, 0,0,640,480);
+    var mock = document.getElementById('mock');
+    ctx.drawImage(mock, 0,0,640,480);
   }
 
   window.detectMarkers = function detectMarkers(markers) {
-
+    while(markers.length > 0) {
+      markers.pop();
+    }
     updateCanvas(ctx, video);
     canvas.changed = true;
     var detected = detector.detectMarkerLite(raster, 100);
@@ -116,7 +119,11 @@ window.onload = function() {
       markers.push({
         id: i,
         x: v[0],
-        y: v[1]
+        y: v[1],
+        vx: 0,
+        vy: 0,
+        ax: 0,
+        ay: 0
       });
 
         ctx.beginPath();
