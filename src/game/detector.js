@@ -98,15 +98,10 @@ window.onload = function() {
       }
       var mat = pastResults[i].transform;
       var verts = [
-        vec4.create(-1, -1, 0, 1),
-        vec4.create(1, -1, 0, 1),
-        vec4.create(1, 1, 0, 1),
-        vec4.create(-1, 1, 0, 1) ];
-      var verts2 = [
-        vec4.create(-0.8, -0.8, 0, 1),
-        vec4.create(-0.2, -0.8, 0, 1),
-        vec4.create(-0.2, -0.2, 0, 1),
-        vec4.create(-0.8, -0.2, 0, 1) ];
+        vec4.create(-0.05, -0.05, 0, 1),
+        vec4.create(0.05, -0.05, 0, 1),
+        vec4.create(0.05, 0.05, 0, 1),
+        vec4.create(-0.05, 0.05, 0, 1) ];
       ctx.save();
 
       var v = {};
@@ -139,21 +134,6 @@ window.onload = function() {
           });
         ctx.closePath()
         ctx.fillStyle = "red";
-        ctx.fill();
-        ctx.beginPath();
-
-          verts2.forEach(function(v,i) {
-            mat4.multiplyVec4(mat, v);
-            v[0] = v[0]*w2/v[3] + w2;
-            v[1] = -v[1]*h2/v[3] + h2;
-            if (i) {
-              ctx.lineTo(v[0], v[1]);
-            } else {
-              ctx.moveTo(v[0], v[1]);
-            }
-          });
-        ctx.closePath();
-        ctx.fillStyle = "white";
         ctx.fill();
       ctx.restore();
     }
