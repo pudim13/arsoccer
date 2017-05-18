@@ -30,6 +30,9 @@ var SQUARE_LARGE_ID = 19;
 var FRICTION = 0.90;
 var EPSILON = 0.05;
 
+var AXIS_X = 640;
+var AXIS_Y = 480;
+
 var time = new Date().getTime();
 var markers = [];
 var ball = {};
@@ -91,7 +94,7 @@ function drawRectangle(ctx,marker,size) {
 function drawGoal(ctx,marker,player) {
   ctx.beginPath();
   var tamX = 25;
-  var goalX = player == GOAL_ONE_ID ? 0 : 640-tamX;
+  var goalX = player == GOAL_ONE_ID ? 0 : AXIS_X-tamX;
 
   ctx.moveTo(goalX, marker.y-80);
   ctx.lineTo(goalX+tamX, marker.y-80);
@@ -109,12 +112,12 @@ function drawGame() {
   var ctx = canvas.getContext('2d');
 
   var img=document.getElementById("grass");
-  ctx.drawImage(img,0,0,640,480);
+  ctx.drawImage(img,0,0,AXIS_X,AXIS_Y);
   ctx.beginPath();
   ctx.moveTo(0, 0);
-  ctx.lineTo(0, 480);
-  ctx.lineTo(640, 480);
-  ctx.lineTo(640, 0);
+  ctx.lineTo(0, AXIS_Y);
+  ctx.lineTo(AXIS_X, AXIS_Y);
+  ctx.lineTo(AXIS_X, 0);
   ctx.lineTo(0, 0);
   ctx.closePath();
   ctx.lineWidth = 5;
@@ -124,32 +127,32 @@ function drawGame() {
   ctx.setLineDash([5, 5]);
 
   ctx.beginPath();
-  ctx.moveTo(0.2*640, 0);
-  ctx.lineTo(0.2*640, 480);
+  ctx.moveTo(0.2*AXIS_X, 0);
+  ctx.lineTo(0.2*AXIS_X, AXIS_Y);
   ctx.closePath();
   ctx.lineWidth = 3;
   ctx.strokeStyle = 'rgba(220,220,220,0.5)';
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(0.4*640, 0);
-  ctx.lineTo(0.4*640, 480);
+  ctx.moveTo(0.4*AXIS_X, 0);
+  ctx.lineTo(0.4*AXIS_X, AXIS_Y);
   ctx.closePath();
   ctx.lineWidth = 3;
   ctx.strokeStyle = 'rgba(220,220,220,0.5)';
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(0.6*640, 0);
-  ctx.lineTo(0.6*640, 480);
+  ctx.moveTo(0.6*AXIS_X, 0);
+  ctx.lineTo(0.6*AXIS_X, AXIS_Y);
   ctx.closePath();
   ctx.lineWidth = 3;
   ctx.strokeStyle = 'rgba(220,220,220,0.5)';
   ctx.stroke();
 
   ctx.beginPath();
-  ctx.moveTo(0.8*640, 0);
-  ctx.lineTo(0.8*640, 480);
+  ctx.moveTo(0.8*AXIS_X, 0);
+  ctx.lineTo(0.8*AXIS_X, AXIS_Y);
   ctx.closePath();
   ctx.lineWidth = 3;
   ctx.strokeStyle = 'rgba(220,220,220,0.5)';
@@ -336,7 +339,7 @@ function verifyCollision() {
       tam = MEDIUM_OBJECT/2;
     }
 
-    if(markers[i].id == GOAL_ONE_ID && ball.x > 640-BALL_SIZE/2) {
+    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2) {
       //disparaEventoGolJogador2();
     }
 
@@ -355,11 +358,11 @@ function verifyCollision() {
   }
 
   //COLISAO COM O CAMPO
-  if(ball.x > 640-BALL_SIZE/2 || ball.x < BALL_SIZE/2) {
+  if(ball.x > AXIS_X-BALL_SIZE/2 || ball.x < BALL_SIZE/2) {
     ball.vx = -ball.vx;
     ball.ax = -ball.ax;
   }
-  if(ball.y > 480-BALL_SIZE/2 || ball.y < BALL_SIZE/2) {
+  if(ball.y > AXIS_Y-BALL_SIZE/2 || ball.y < BALL_SIZE/2) {
     ball.vy = -ball.vy;
     ball.ay = -ball.ay;
   }

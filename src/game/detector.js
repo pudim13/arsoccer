@@ -1,3 +1,7 @@
+
+var AXIS_X = 640;
+var AXIS_Y = 480;
+
 window.onload = function() {
 
   var video = document.createElement('video');
@@ -9,8 +13,8 @@ window.onload = function() {
     });
   }
 
-  video.width = 640;
-  video.height = 480;
+  video.width = AXIS_X;
+  video.height = AXIS_Y;
   video.loop = true;
   video.volume = 0;
   video.controls = true;
@@ -18,12 +22,12 @@ window.onload = function() {
   document.body.appendChild(video);
 
   var canvas = document.createElement('canvas');
-  canvas.width = 640;
-  canvas.height = 480;
+  canvas.width = AXIS_X;
+  canvas.height = AXIS_Y;
   var raster = new NyARRgbRaster_Canvas2D(canvas);
   document.body.appendChild(canvas);
 
-  var param = new FLARParam(640,480);
+  var param = new FLARParam(AXIS_X,AXIS_Y);
   var pmat = mat4.identity();
   param.copyCameraMatrix(pmat, 100, 10000);
 
@@ -34,7 +38,7 @@ window.onload = function() {
   var frame = 0;
   var ctx = canvas.getContext('2d');
   ctx.fillStyle = 'white';
-  ctx.fillRect(0,0,640,480);
+  ctx.fillRect(0,0,AXIS_X,AXIS_Y);
   ctx.font = "24px URW Gothic L, Arial, Sans-serif";
 
   var times = [];
@@ -42,7 +46,7 @@ window.onload = function() {
 
   function updateCanvas(ctx, video) {
     var mock = document.getElementById('mock');
-    ctx.drawImage(mock, 0,0,640,480);
+    ctx.drawImage(mock, 0,0,AXIS_X,AXIS_Y);
   }
 
   window.detectMarkers = function detectMarkers(markers) {
@@ -89,8 +93,8 @@ window.onload = function() {
       pastResults[currId].transform = cm;
     }
 
-    var w2 = 640/2;
-    var h2 = 480/2;
+    var w2 = AXIS_X/2;
+    var h2 = AXIS_Y/2;
 
     for (var i in pastResults) {
       if(isNaN(i)) {
