@@ -339,7 +339,33 @@ function verifyCollision() {
       tam = MEDIUM_OBJECT/2;
     }
 
-    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2) {
+    //COLISAO COM RETANGULOS
+    if(markers[i].id == RECTANGLE_SMALL_ID || markers[i].id == SQUARE_SMALL_ID  || markers[i].id == CIRCLE_SMALL_ID ) {
+      posX = markers[i].x;
+      posY = markers[i].y;
+      tam = SMALL_OBJECT/2;
+    }
+
+    //COLISAO COM QUADRADOS
+    if(markers[i].id == RECTANGLE_MEDIUM_ID || markers[i].id == SQUARE_MEDIUM_ID || markers[i].id == CIRCLE_MEDIUM_ID ) {
+      posX = markers[i].x;
+      posY = markers[i].y;
+      tam = MEDIUM_OBJECT/2;
+    }
+
+    //COLISAO COM CIRCULOS
+    if(markers[i].id == RECTANGLE_LARGE_ID || markers[i].id == SQUARE_LARGE_ID || markers[i].id == CIRCLE_LARGE_ID ) {
+      posX = markers[i].x;
+      posY = markers[i].y;
+      tam = MEDIUM_OBJECT/2;
+    }
+
+    //COLISAO COM O GOL
+    if((markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y > 200 && ball.y < 280 ) || (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y > 200 && ball.y < 280)) {
+      showMessage("GOOOOOOL!!!!!!!");
+      ball.x = 320;
+      ball.y = 240;
+      break;
       //disparaEventoGolJogador2();
     }
 
