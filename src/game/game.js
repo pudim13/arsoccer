@@ -5,6 +5,7 @@ var LARGE_OBJECT = 75;
 
 var BALL_SIZE = 30;
 var MAX_DISTANCE_PLAY = 500;
+var GOAL_HEIGHT = 160;
 
 var PLAYER_ONE_ID = 0;
 var PLAYER_TWO_ID = 1;
@@ -36,6 +37,10 @@ var AXIS_Y = 480;
 var time = new Date().getTime();
 var markers = [];
 var ball = {};
+var score = {playerOne: 0,
+             playerTwo: 0};
+
+var actualPlayerTurn = PLAYER_ONE_ID;
 
 function drawSquare(ctx,marker,size) {
   ctx.beginPath();
@@ -96,11 +101,11 @@ function drawGoal(ctx,marker,player) {
   var tamX = 25;
   var goalX = player == GOAL_ONE_ID ? 0 : AXIS_X-tamX;
 
-  ctx.moveTo(goalX, marker.y-80);
-  ctx.lineTo(goalX+tamX, marker.y-80);
-  ctx.lineTo(goalX+tamX, marker.y+80);
-  ctx.lineTo(goalX, marker.y+80);
-  ctx.lineTo(goalX, marker.y-80);
+  ctx.moveTo(goalX, marker.y-GOAL_HEIGHT/2);
+  ctx.lineTo(goalX+tamX, marker.y-GOAL_HEIGHT/2);
+  ctx.lineTo(goalX+tamX, marker.y+GOAL_HEIGHT/2);
+  ctx.lineTo(goalX, marker.y+GOAL_HEIGHT/2);
+  ctx.lineTo(goalX, marker.y-GOAL_HEIGHT/2);
   ctx.closePath();
   ctx.lineWidth=5;
   ctx.strokeStyle = "white";
@@ -308,9 +313,17 @@ function startGame() {
     detectMarkers(markers);
     if(validMarkers(markers)) {
        $('#startButton').prop("disabled",true);
-       $('#play1').prop("disabled",false);
 
-       showMessage("Jogador 1, posicione o jogador e dispare a jogada", true);
+       if(actualPlayerTurn == PLAYER_TWO_ID) {
+         $('#play1').prop("disabled",true);
+         $('#play2').prop("disabled",false);
+       } else {
+         $('#play1').prop("disabled",false);
+         $('#play2').prop("disabled",true);
+       }
+
+
+       showMessage("Jogador " + (actualPlayerTurn == PLAYER_TWO_ID ? "2":"1") + ", posicione o jogador e dispare a jogada", true);
     }
 
     setInterval(gameTick,1);
@@ -361,12 +374,14 @@ function verifyCollision() {
     }
 
     //COLISAO COM O GOL
-    if((markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y > 200 && ball.y < 280 ) || (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y > 200 && ball.y < 280)) {
-      showMessage("GOOOOOOL!!!!!!!");
-      ball.x = 320;
-      ball.y = 240;
+    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y > markers[i].y-GOAL_HEIGHT/2 && ball.y < markers[i].y+GOAL_HEIGHT/2) {
+      disparaEventoGolJogador(PLAYER_TWO_ID);
       break;
-      //disparaEventoGolJogador2();
+    }
+
+    if (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y > markers[i].y-GOAL_HEIGHT/2 && ball.y < markers[i].y+GOAL_HEIGHT/2) {
+      disparaEventoGolJogador(PLAYER_ONE_ID);
+      break;
     }
 
     var vecX = ball.x - posX;
@@ -393,6 +408,34 @@ function verifyCollision() {
     ball.ay = -ball.ay;
   }
 
+}
+
+function disparaEventoGolJogador(playerId) {
+    if(playerId == PLAYER_ONE_ID) {
+        score.playerOne++;
+    }
+    else if(playerId == PLAYER_TWO_ID) {
+        score.playerTwo++;
+    }
+    showMessage("GOOL !!! Jogador " + (playerId == PLAYER_TWO_ID ? "1":"2") + " reposicione a bola e clique em iniciar!");
+    ball.x = 320;
+    ball.y = 240;
+    ball.vx = 0;
+    ball.vy = 0;
+    ball.ax = 0;
+    ball.ay = 0;
+
+    updateScore();
+    $('#startButton').prop("disabled",false);
+    $('#play1').prop("disabled",true);
+    $('#play2').prop("disabled",true);
+
+    actualPlayerTurn = (playerId == PLAYER_TWO_ID ? PLAYER_ONE_ID : PLAYER_TWO_ID);
+}
+
+function updateScore() {
+      $('#scorePlayerOne').text(score.playerOne);
+      $('#scorePlayerTwo').text(score.playerTwo);
 }
 
 function calculateNextPosition() {

@@ -1,17 +1,30 @@
-<html><head>
-<script src="src/third/JSARToolKit.min.js"></script>
-<script src="src/third/magi.js"></script>
-<script src="src/third/jquery.min.js"></script>
+<html>
+<head>
+  <script src="src/third/JSARToolKit.min.js"></script>
+  <script src="src/third/magi.js"></script>
+  <script src="src/third/jquery.min.js"></script>
 
-<script src="src/game/detector.js"></script>
-<script src="src/game/game.js"></script>
+  <script src="src/game/detector.js"></script>
+  <script src="src/game/game.js"></script>
+
+  <link rel="stylesheet" type="text/css" href="resources/main.css">
 </head>
-  <button id="startButton" onclick='startGame()'>Iniciar Jogo</button>
-  <button id="play1" onclick='player1Play()' disabled>Disparar Jogador 1</button>
-  <button id="play2" onclick='player2Play()' disabled>Disparar Jogador 2</button>
+  <div class="scoreTop">
+    <h2 class="score middleScore" style="float:left">Yellow </h2>
+    <h1 id="scorePlayerOne" class="score" style="float:left">0</h1>
+    <h2 class="score middleScore" style="float:left"> x </h2>
+    <h1 id="scorePlayerTwo" class="score" style="float:left">0</h1>
+    <h2 class="score middleScore" style="float:left"> Purple</h2>
+  </div>
+  <div class="actionButtons">
+    <button id="startButton" onclick='startGame()'>Iniciar Jogo</button>
+    <button id="play1" onclick='player1Play()' disabled>Disparar Jogador 1</button>
+    <button id="play2" onclick='player2Play()' disabled>Disparar Jogador 2</button>
+  </div>
+  <div class="main">
+    <canvas id='gameField' width='640' height='480'> </canvas>
 
-  <canvas id='gameField' width='640' height='480'> </canvas>
-
-  <img id="grass" src="resources/earth.jpg" width="640" height="480" style="display:none;"/>
-  <img id="mock" src="resources/mock.png" width="640" height="480" style="display:none;"/>
+    <img id="grass" src="resources/earth.jpg" width="640" height="480" style="display:none;"/>
+    <img id="mock" src="resources/mock.png" width="640" height="480" style="display:none;"/>
+  </div>
 </html>

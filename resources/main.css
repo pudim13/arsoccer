@@ -1,0 +1,25 @@
+.score {
+  float: left;
+}
+
+.middleScore {
+  margin-top: 28px;
+}
+
+.scoreTop {
+  margin-left: 300px;
+  width: 640;
+  float:left;
+}
+
+.actionButtons {
+  margin-left: 250px;
+  width: 640;
+  float:left;
+}
+
+.main {
+  width: 100%;
+  float: left;
+  margin-left: 50px;
+}
