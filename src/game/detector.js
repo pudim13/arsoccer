@@ -45,6 +45,7 @@ window.onload = function() {
   var pastResults = {};
 
   function updateCanvas(ctx, video) {
+    //replace mock with video after tests
     var mock = document.getElementById('mock');
     ctx.drawImage(mock, 0,0,AXIS_X,AXIS_Y);
   }

@@ -34,6 +34,9 @@ var EPSILON = 0.05;
 var AXIS_X = 640;
 var AXIS_Y = 480;
 
+var PLAYER_ONE_NAME = "Yellow";
+var PLAYER_TWO_NAME = "Purple";
+
 var time = new Date().getTime();
 var markers = [];
 var ball = {};
@@ -239,22 +242,22 @@ function validMarkers(markers) {
     }
 
     if(!hasGoal1) {
-      showMessage("Nao foi encontrado gol 1",true);
+      showMessage("Nao foi encontrado gol do jogador " + PLAYER_ONE_NAME,true);
       return false;
     }
 
     if(!hasGoal2) {
-      showMessage("Nao foi encontrado gol 2",true);
+      showMessage("Nao foi encontrado gol do jogador " + PLAYER_TWO_NAME ,true);
       return false;
     }
 
     if(!hasPlayer1) {
-      showMessage("Nao foi encontrado primeiro jogador",true);
+      showMessage("Nao foi encontrado jogador " + PLAYER_ONE_NAME,true);
       return false;
     }
 
     if(!hasPlayer2) {
-      showMessage("Nao foi encontrado segundo jogador",true);
+      showMessage("Nao foi encontrado jogador " + PLAYER_TWO_NAME,true);
       return false;
     }
 
@@ -275,7 +278,7 @@ function player1Play() {
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
         if(mod > MAX_DISTANCE_PLAY) {
-          showMessage("Jogador 1 muito longe da bola("+mod+"), reposicione", true);
+          showMessage("Jogador " + PLAYER_ONE_NAME + " muito longe da bola("+mod+"), reposicione", true);
         } else {
           ball.ax = fX/75;
           ball.ay = fY/75;
@@ -297,7 +300,7 @@ function player2Play() {
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
         if(mod > MAX_DISTANCE_PLAY) {
-          showMessage("Jogador 2 muito longe da bola("+mod+"), reposicione", true);
+          showMessage("Jogador " + PLAYER_TWO_NAME + " muito longe da bola("+mod+"), reposicione", true);
         } else {
           ball.ax = fX/50;
           ball.ay = fY/50;
@@ -323,7 +326,7 @@ function startGame() {
        }
 
 
-       showMessage("Jogador " + (actualPlayerTurn == PLAYER_TWO_ID ? "2":"1") + ", posicione o jogador e dispare a jogada", true);
+       showMessage("Jogador " + (actualPlayerTurn == PLAYER_TWO_ID ? PLAYER_TWO_NAME:PLAYER_ONE_NAME) + ", posicione o jogador e dispare a jogada", true);
     }
 
     setInterval(gameTick,1);
@@ -417,7 +420,7 @@ function disparaEventoGolJogador(playerId) {
     else if(playerId == PLAYER_TWO_ID) {
         score.playerTwo++;
     }
-    showMessage("GOOL !!! Jogador " + (playerId == PLAYER_TWO_ID ? "1":"2") + " reposicione a bola e clique em iniciar!");
+    showMessage("Goooll do jogador " + (playerId == PLAYER_TWO_ID ? PLAYER_TWO_NAME:PLAYER_ONE_NAME) + " !!! Jogador " + (playerId == PLAYER_TWO_ID ? PLAYER_ONE_NAME:PLAYER_TWO_NAME) + " reposicione a bola e clique em iniciar!");
     ball.x = 320;
     ball.y = 240;
     ball.vx = 0;

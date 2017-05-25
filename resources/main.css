@@ -1,19 +1,23 @@
 .score {
   float: left;
+  background-color: black;
+  color: white;
+  border: 4px solid red;
+  padding: 3px;
 }
 
 .middleScore {
-  margin-top: 28px;
+  margin: 28px -4px 0 -4px;
 }
 
 .scoreTop {
-  margin-left: 300px;
+  margin-left: 270px;
   width: 640;
   float:left;
 }
 
 .actionButtons {
-  margin-left: 250px;
+  margin: 0px 0px 10px 250px;
   width: 640;
   float:left;
 }
