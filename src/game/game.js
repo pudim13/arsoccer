@@ -3,9 +3,11 @@ var SMALL_OBJECT = 25;
 var MEDIUM_OBJECT = 50;
 var LARGE_OBJECT = 75;
 
-var BALL_SIZE = 30;
-var MAX_DISTANCE_PLAY = 500;
 var GOAL_HEIGHT = 160;
+var BALL_SIZE = 30;
+
+//replace with original value 150, 500 only for tests
+var MAX_DISTANCE_PLAY = 500;
 
 var PLAYER_ONE_ID = 0;
 var PLAYER_TWO_ID = 1;
@@ -101,7 +103,7 @@ function drawRectangle(ctx,marker,size) {
 
 function drawGoal(ctx,marker,player) {
   ctx.beginPath();
-  var tamX = 25;
+  var tamX = 4;
   var goalX = player == GOAL_ONE_ID ? 0 : AXIS_X-tamX;
 
   ctx.moveTo(goalX, marker.y-GOAL_HEIGHT/2);
@@ -128,7 +130,7 @@ function drawGame() {
   ctx.lineTo(AXIS_X, 0);
   ctx.lineTo(0, 0);
   ctx.closePath();
-  ctx.lineWidth = 5;
+  ctx.lineWidth = 10;
   ctx.strokeStyle = "black";
   ctx.stroke();
 
@@ -166,12 +168,15 @@ function drawGame() {
   ctx.strokeStyle = 'rgba(220,220,220,0.5)';
   ctx.stroke();
 
-  ctx.setLineDash([]);
-
   ctx.font = "20px URW Gothic L, Arial, Sans-serif";
 
+  if(ball.vx==0 && ball.vy==0) {
+    drawRadius(ctx,ball,MAX_DISTANCE_PLAY,'red');
+  }
+
+  ctx.setLineDash([]);
+
   drawCircle(ctx,ball,BALL_SIZE,'white');
-  drawRadius(ctx,ball,MAX_DISTANCE_PLAY,'red');
 
   for(var i=0;i<markers.length;i++) {
     //DRAWING PLAYERS
@@ -277,8 +282,8 @@ function player1Play() {
         var fX = ball.x - newMarkers[i].x;
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
-        if(mod > MAX_DISTANCE_PLAY) {
-          showMessage("Jogador " + PLAYER_ONE_NAME + " muito longe da bola("+mod+"), reposicione", true);
+        if(mod > MAX_DISTANCE_PLAY+BALL_SIZE) {
+          showMessage("Jogador " + PLAYER_ONE_NAME + " muito longe da bola, reposicione!", true);
         } else {
           ball.ax = fX/75;
           ball.ay = fY/75;
@@ -299,8 +304,8 @@ function player2Play() {
         var fX = ball.x - newMarkers[i].x;
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
-        if(mod > MAX_DISTANCE_PLAY) {
-          showMessage("Jogador " + PLAYER_TWO_NAME + " muito longe da bola("+mod+"), reposicione", true);
+        if(mod > MAX_DISTANCE_PLAY+BALL_SIZE) {
+          showMessage("Jogador " + PLAYER_TWO_NAME + " muito longe da bola, reposicione!", true);
         } else {
           ball.ax = fX/50;
           ball.ay = fY/50;
@@ -377,12 +382,12 @@ function verifyCollision() {
     }
 
     //COLISAO COM O GOL
-    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y > markers[i].y-GOAL_HEIGHT/2 && ball.y < markers[i].y+GOAL_HEIGHT/2) {
+    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
       disparaEventoGolJogador(PLAYER_TWO_ID);
       break;
     }
 
-    if (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y > markers[i].y-GOAL_HEIGHT/2 && ball.y < markers[i].y+GOAL_HEIGHT/2) {
+    if (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
       disparaEventoGolJogador(PLAYER_ONE_ID);
       break;
     }
@@ -392,8 +397,9 @@ function verifyCollision() {
     var modulo = Math.sqrt(vecX*vecX + vecY*vecY);
     if(modulo<=(tam+BALL_SIZE/2)) {
       modA = Math.sqrt(ball.ax*ball.ax + ball.ay*ball.ay);
-      ball.vx = 0;
-      ball.vy = 0;
+      modV = Math.sqrt(ball.vx*ball.vx + ball.vy*ball.vy);
+      ball.vx = modV * (vecX/modulo);
+      ball.vy = modV * (vecY/modulo);
       ball.ax = modA * (vecX/modulo);
       ball.ay = modA * (vecY/modulo);
       break;
@@ -402,11 +408,23 @@ function verifyCollision() {
   }
 
   //COLISAO COM O CAMPO
-  if(ball.x > AXIS_X-BALL_SIZE/2 || ball.x < BALL_SIZE/2) {
+  if(ball.x > AXIS_X-BALL_SIZE/2) {
+    ball.x = AXIS_X-BALL_SIZE/2;
     ball.vx = -ball.vx;
     ball.ax = -ball.ax;
   }
-  if(ball.y > AXIS_Y-BALL_SIZE/2 || ball.y < BALL_SIZE/2) {
+  if(ball.x < BALL_SIZE/2) {
+    ball.x = BALL_SIZE/2;
+    ball.vx = -ball.vx;
+    ball.ax = -ball.ax;
+  }
+  if(ball.y > AXIS_Y-BALL_SIZE/2) {
+    ball.y = AXIS_Y-BALL_SIZE/2;
+    ball.vy = -ball.vy;
+    ball.ay = -ball.ay;
+  }
+  if(ball.y < BALL_SIZE/2) {
+    ball.y = BALL_SIZE/2;
     ball.vy = -ball.vy;
     ball.ay = -ball.ay;
   }
