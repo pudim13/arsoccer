@@ -207,6 +207,17 @@ function drawGame() {
     if(markers[i].id == RECTANGLE_LARGE_ID) {
       drawRectangle(ctx, markers[i], LARGE_OBJECT);
     }
+    //DRAWING CIRCLES
+    if(markers[i].id == CIRCLE_SMALL_ID) {
+      drawCircle(ctx, markers[i], SMALL_OBJECT, 'red');
+    }
+    if(markers[i].id == CIRCLE_MEDIUM_ID) {
+      drawCircle(ctx, markers[i], MEDIUM_OBJECT, 'red');
+    }
+    if(markers[i].id == CIRCLE_LARGE_ID) {
+      drawCircle(ctx, markers[i], LARGE_OBJECT, 'red');
+    }
+
     //DRAWING GOALS
     if(markers[i].id == GOAL_ONE_ID || markers[i].id == GOAL_TWO_ID) {
       drawGoal(ctx, markers[i], markers[i].id);
