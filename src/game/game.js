@@ -393,13 +393,13 @@ function verifyCollision() {
     }
 
     //COLISAO COM O GOL
-    if(markers[i].id == GOAL_ONE_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
-      disparaEventoGolJogador(PLAYER_TWO_ID);
+    if(markers[i].id == GOAL_TWO_ID && ball.x > AXIS_X-BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
+      disparaEventoGolJogador(PLAYER_ONE_ID);
       break;
     }
 
-    if (markers[i].id == GOAL_TWO_ID && ball.x < 0+BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
-      disparaEventoGolJogador(PLAYER_ONE_ID);
+    if (markers[i].id == GOAL_ONE_ID && ball.x < 0+BALL_SIZE/2 && ball.y-BALL_SIZE/2 > markers[i].y-GOAL_HEIGHT/2 && ball.y+BALL_SIZE/2 < markers[i].y+GOAL_HEIGHT/2) {
+      disparaEventoGolJogador(PLAYER_TWO_ID);
       break;
     }
 

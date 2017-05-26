@@ -24,6 +24,7 @@ window.onload = function() {
   var canvas = document.createElement('canvas');
   canvas.width = AXIS_X;
   canvas.height = AXIS_Y;
+  canvas.style = 'display:none';
   var raster = new NyARRgbRaster_Canvas2D(canvas);
   document.body.appendChild(canvas);
 
