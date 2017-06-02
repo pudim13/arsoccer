@@ -18,7 +18,7 @@ window.onload = function() {
   video.loop = true;
   video.volume = 0;
   video.controls = true;
-  video.style = 'display:none';
+  //video.style = 'display:none';
   document.body.appendChild(video);
 
   var canvas = document.createElement('canvas');
@@ -48,7 +48,7 @@ window.onload = function() {
   function updateCanvas(ctx, video) {
     //replace mock with video after tests
     var mock = document.getElementById('mock');
-    ctx.drawImage(mock, 0,0,AXIS_X,AXIS_Y);
+    ctx.drawImage(video, 0,0,AXIS_X,AXIS_Y);
   }
 
   window.detectMarkers = function detectMarkers(markers) {

@@ -5,19 +5,21 @@ var LARGE_OBJECT = 75;
 
 var GOAL_HEIGHT = 160;
 var BALL_SIZE = 30;
+var BALL_COLOR = "white";
+var FIELD_TYPE = "grass";
 
 //replace with original value 150, 500 only for tests
-var MAX_DISTANCE_PLAY = 500;
+var MAX_DISTANCE_PLAY = 150;
 
 var PLAYER_ONE_ID = 0;
 var PLAYER_TWO_ID = 1;
 var STANDARD_BALL = 2;
 var GOAL_ONE_ID = 3;
 var GOAL_TWO_ID = 4;
-var GREEN_FIELD_ID = 5;
-var WHITE_FIELD_ID = 6;
-var BROWN_FIELD_ID = 7;
-var GRAY_BALL_ID = 8;
+var GRASS_FIELD_ID = 5;
+var SNOW_FIELD_ID = 6;
+var EARTH_FIELD_ID = 7;
+var WHITE_BALL_ID = 8;
 var BLACK_BALL_ID = 9;
 var ORANGE_BALL_ID=10;
 var RECTANGLE_SMALL_ID = 11;
@@ -29,6 +31,14 @@ var CIRCLE_LARGE_ID = 16;
 var SQUARE_SMALL_ID = 17;
 var SQUARE_MEDIUM_ID = 18;
 var SQUARE_LARGE_ID = 19;
+
+var GRASS_FRICTION = 0.90;
+var SNOW_FRICTION = 0.92;
+var EARTH_FRICTION = 0.88;
+
+var BLACK_BALL_SIZE = 25;
+var WHITE_BALL_SIZE = 30;
+var ORANGE_BALL_SIZE = 35;
 
 var FRICTION = 0.90;
 var EPSILON = 0.05;
@@ -71,8 +81,14 @@ function drawCircle(ctx,marker,size, color) {
   ctx.fillStyle = color;
   ctx.fill();
 
-  ctx.fillStyle = "black";
-  ctx.strokeStyle = "black";
+  if(color!=="black") {
+    ctx.fillStyle = "black";
+    ctx.strokeStyle = "black";
+  }
+  else {
+    ctx.fillStyle = "dark-gray";
+    ctx.strokeStyle = "dark-gray";
+  }
   ctx.lineWidth = 2;
   ctx.stroke();
 }
@@ -121,7 +137,7 @@ function drawGame() {
   var canvas = document.getElementById('gameField');
   var ctx = canvas.getContext('2d');
 
-  var img=document.getElementById("grass");
+  var img=document.getElementById(FIELD_TYPE);
   ctx.drawImage(img,0,0,AXIS_X,AXIS_Y);
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -176,7 +192,7 @@ function drawGame() {
 
   ctx.setLineDash([]);
 
-  drawCircle(ctx,ball,BALL_SIZE,'white');
+  drawCircle(ctx,ball,BALL_SIZE,BALL_COLOR);
 
   for(var i=0;i<markers.length;i++) {
     //DRAWING PLAYERS
@@ -236,19 +252,72 @@ function validMarkers(markers) {
     for(var i=0;i<markers.length;i++) {
       if(markers[i].id == PLAYER_ONE_ID) {
         hasPlayer1 = true;
+
+        if(markers[i].x + MEDIUM_OBJECT/2  > (AXIS_X/5)*2) {
+            showMessage("Jogador 1 posicionado fora da area valida!",true);
+            return false;
+        }
       }
       if(markers[i].id == PLAYER_TWO_ID) {
          hasPlayer2 = true;
+
+         if(markers[i].x - MEDIUM_OBJECT/2  < AXIS_X - ((AXIS_X/5)*2) ) {
+             showMessage("Jogador 2 posicionado fora da area valida!",true);
+             return false;
+         }
       }
       if(markers[i].id == STANDARD_BALL) {
          hasBall = true;
+
+         if(markers[i].x - BALL_SIZE/2  < (AXIS_X/5)*2 ||
+            markers[i].x + BALL_SIZE/2  > (AXIS_X/5)*3 ) {
+             showMessage("Bola fora da area valida!",true);
+             return false;
+         }
+
          $.extend(true,ball, markers[i]);
       }
       if(markers[i].id == GOAL_ONE_ID) {
          hasGoal1 = true;
+
+         if(markers[i].x + MEDIUM_OBJECT/2  > (AXIS_X/5)) {
+             showMessage("Gol do Jogador 1 posicionado fora da area valida!",true);
+             return false;
+         }
       }
       if(markers[i].id == GOAL_TWO_ID) {
          hasGoal2 = true;
+
+         if(markers[i].x - MEDIUM_OBJECT/2  < AXIS_X - (AXIS_X/5) ) {
+             showMessage("Gol do Jogador 2 posicionado fora da area valida!",true);
+             return false;
+         }
+      }
+
+      if(markers[i].id == GRASS_FIELD_ID) {
+          FIELD_TYPE = "grass";
+          FRICTION = GRASS_FRICTION;
+      }
+      if(markers[i].id == SNOW_FIELD_ID) {
+          FIELD_TYPE = "snow";
+          FRICTION = SNOW_FRICTION;
+      }
+      if(markers[i].id == EARTH_FIELD_ID) {
+          FIELD_TYPE = "earth";
+          FRICTION = EARTH_FRICTION;
+      }
+
+      if(markers[i].id == WHITE_BALL_ID) {
+          BALL_COLOR = "white";
+          BALL_SIZE = WHITE_BALL_SIZE;
+      }
+      if(markers[i].id == BLACK_BALL_ID) {
+          BALL_COLOR = "black";
+          BALL_SIZE = BLACK_BALL_SIZE;
+      }
+      if(markers[i].id == ORANGE_BALL_ID) {
+          BALL_COLOR = "orange";
+          BALL_SIZE = ORANGE_BALL_SIZE;
       }
     }
 
@@ -290,6 +359,12 @@ function player1Play() {
 
     for(var i=0;i<newMarkers.length;i++) {
       if(newMarkers[i].id == PLAYER_ONE_ID) {
+        for(var j=0;j<markers.length;j++) {
+           if(markers[j].id == newMarkers[i].id) {
+              markers[j].x = newMarkers[i].x;
+              markers[j].y = newMarkers[i].y;
+           }
+        }
         var fX = ball.x - newMarkers[i].x;
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
@@ -312,6 +387,12 @@ function player2Play() {
 
     for(var i=0;i<newMarkers.length;i++) {
       if(newMarkers[i].id == PLAYER_TWO_ID) {
+        for(var j=0;j<markers.length;j++) {
+           if(markers[j].id == newMarkers[i].id) {
+              markers[j].x = newMarkers[i].x;
+              markers[j].y = newMarkers[i].y;
+           }
+        }
         var fX = ball.x - newMarkers[i].x;
         var fY = ball.y - newMarkers[i].y;
         var mod = Math.sqrt((fX*fX) + (fY*fY));
