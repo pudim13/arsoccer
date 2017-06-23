@@ -4,6 +4,22 @@ var AXIS_Y = 480;
 
 window.onload = function() {
 
+  document.body.addEventListener('mouseup', function (e){
+      if(e.button === 0){
+          if(actualPlayerTurn == PLAYER_ONE_ID) {
+            HIDE_CANVAS = true;
+            setTimeout(function(){player1Play(); HIDE_CANVAS = false;},500);
+          } else {
+            HIDE_CANVAS = true;
+            setTimeout(function(){player2Play(); HIDE_CANVAS = false;},500);
+          }
+      }
+      else if(e.button === 1){
+          HIDE_CANVAS = true;
+          setTimeout(function(){startGame(); HIDE_CANVAS = false;},500);
+      }
+  }, false);
+
   var video = document.createElement('video');
 
   if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
@@ -119,8 +135,8 @@ window.onload = function() {
       console.log('Meu ID: ' + i + ', Meu X=' + v[0] + ' Y=' + v[1]);
       markers.push({
         id: i,
-        x: v[0],
-        y: v[1],
+        x: v[0]+13,
+        y: v[1]+13,
         vx: 0,
         vy: 0,
         ax: 0,

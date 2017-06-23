@@ -49,6 +49,8 @@ var AXIS_Y = 480;
 var PLAYER_ONE_NAME = "Yellow";
 var PLAYER_TWO_NAME = "Purple";
 
+var HIDE_CANVAS = false;
+
 var time = new Date().getTime();
 var markers = [];
 var ball = {};
@@ -138,6 +140,19 @@ function drawGame() {
   var ctx = canvas.getContext('2d');
 
   var img=document.getElementById(FIELD_TYPE);
+  if(HIDE_CANVAS) {
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, AXIS_Y);
+    ctx.lineTo(AXIS_X, AXIS_Y);
+    ctx.lineTo(AXIS_X, 0);
+    ctx.lineTo(0, 0);
+    ctx.closePath();
+    ctx.fillStyle = "white";
+    ctx.fill();
+
+    return;
+  }
   ctx.drawImage(img,0,0,AXIS_X,AXIS_Y);
   ctx.beginPath();
   ctx.moveTo(0, 0);
@@ -349,13 +364,22 @@ function validMarkers(markers) {
     return true;
 }
 
-function showMessage(message,error) {
-    alert(message);
+function showMessage(message,error,goal) {
+    if(goal) {
+      document.getElementById("goalSpan").style = 'color:' + (goal == PLAYER_ONE_ID ? 'yellow;' : 'purple;');
+      document.getElementById("goalSpan").innerHTML = 'G';
+      for(var i=0;i<10;)
+      setTimeout(function(){document.getElementById("messageSpan").innerHTML =''},2000);
+    } else {
+      document.getElementById("messageSpan").style = 'color:' + (error ? 'red;' : 'white;');
+      document.getElementById("messageSpan").innerHTML = message;
+      setTimeout(function(){document.getElementById("messageSpan").innerHTML =''},2000);
+    }
 }
 
 function player1Play() {
-    var newMarkers = [];
-    detectMarkers(newMarkers);
+  var newMarkers = [];
+  detectMarkers(newMarkers);
 
     for(var i=0;i<newMarkers.length;i++) {
       if(newMarkers[i].id == PLAYER_ONE_ID) {
@@ -376,6 +400,7 @@ function player1Play() {
 
           $('#play1').prop("disabled",true);
           $('#play2').prop("disabled",false);
+          actualPlayerTurn = PLAYER_TWO_ID;
         }
       }
     }
@@ -404,6 +429,7 @@ function player2Play() {
 
           $('#play2').prop("disabled",true);
           $('#play1').prop("disabled",false);
+          actualPlayerTurn = PLAYER_ONE_ID;
         }
       }
     }
@@ -411,6 +437,7 @@ function player2Play() {
 
 function startGame() {
     detectMarkers(markers);
+
     if(validMarkers(markers)) {
        $('#startButton').prop("disabled",true);
 
@@ -470,7 +497,7 @@ function verifyCollision() {
     if(markers[i].id == RECTANGLE_LARGE_ID || markers[i].id == SQUARE_LARGE_ID || markers[i].id == CIRCLE_LARGE_ID ) {
       posX = markers[i].x;
       posY = markers[i].y;
-      tam = MEDIUM_OBJECT/2;
+      tam = LARGE_OBJECT/2;
     }
 
     //COLISAO COM O GOL

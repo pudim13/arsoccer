@@ -10,11 +10,9 @@
   <link rel="stylesheet" type="text/css" href="resources/main.css">
 </head>
   <div class="scoreTop">
-    <h2 class="score middleScore">Yellow </h2>
     <h1 id="scorePlayerOne" class="score">0</h1>
     <h2 class="score middleScore"> x </h2>
     <h1 id="scorePlayerTwo" class="score">0</h1>
-    <h2 class="score middleScore"> Purple</h2>
   </div>
   <div class="actionButtons">
     <button id="startButton" onclick='startGame()'>Iniciar Jogo</button>
@@ -22,6 +20,8 @@
     <button id="play2" onclick='player2Play()' disabled>Disparar Purple</button>
   </div>
   <div class="main">
+    <span id="messageSpan"></span>
+    <span id="goalSpan"></span>
     <canvas id='gameField' width='640' height='480'> </canvas>
 
     <img id="grass" src="resources/grass.jpg" width="640" height="480" style="display:none;"/>

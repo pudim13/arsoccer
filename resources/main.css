@@ -1,8 +1,6 @@
 .score {
     float: left;
-    background-color: #729ff3;
     color: white;
-    border: 3px solid black;
     padding: 9px;
 }
 
@@ -10,10 +8,41 @@
   margin: 28px -4px 0 -4px;
 }
 
+#scorePlayerOne {
+  color: yellow;
+}
+
+#scorePlayerTwo {
+  color: purple;
+}
+
+#messageSpan {
+    position: absolute;
+    color: white;
+    font-size: 50px;
+    text-shadow: 5px 5px #000000;
+    margin-top: 300px;
+    margin-left: 10px;
+}
+
+#messageSpan {
+    position: absolute;
+    color: yellow;
+    font-size: 18px;
+    text-shadow: 2px 2px #000000;
+    margin-top: 451px;
+    margin-left: 10px;
+}
+
 .scoreTop {
-    margin-left: 238px;
+    margin-left: 325px;
     width: 640;
     float: left;
+
+    position: absolute;
+    margin-top: 8px;
+    opacity: 0.7;
+    text-shadow: 2px 2px #000000;
 }
 
 .actionButtons {
