@@ -296,7 +296,7 @@ function validMarkers(markers) {
          hasGoal1 = true;
 
          if(markers[i].x + MEDIUM_OBJECT/2  > (AXIS_X/5)) {
-             showMessage("Gol do Jogador 1 posicionado fora da area valida!",true, PLAYER_ONE_ID);
+             showMessage("Gol do Jogador 1 posicionado fora da area valida!",true);
              return false;
          }
       }
@@ -304,7 +304,7 @@ function validMarkers(markers) {
          hasGoal2 = true;
 
          if(markers[i].x - MEDIUM_OBJECT/2  < AXIS_X - (AXIS_X/5) ) {
-             showMessage("Gol do Jogador 2 posicionado fora da area valida!",true, PLAYER_TWO_ID);
+             showMessage("Gol do Jogador 2 posicionado fora da area valida!",true);
              return false;
          }
       }
@@ -365,14 +365,14 @@ function validMarkers(markers) {
 }
 
 function showMessage(message,error,goal) {
-    if(goal) {
+    if(goal===0 || goal===1) {
       document.getElementById("goalSpan").style = 'color:' + (goal == PLAYER_ONE_ID ? 'yellow;' : 'purple;');
       document.getElementById("goalSpan").innerHTML = 'G';
       for(var i=0;i<13;i++) {
-        setTimeout(function(){document.getElementById("messageSpan").innerHTML = document.getElementById("messageSpan").innerHTML + (i%2==0 ? 'o':'O')},i*100);
+        setTimeout(function(i){document.getElementById("goalSpan").innerHTML = document.getElementById("goalSpan").innerHTML + (document.getElementById("goalSpan").innerHTML.length%2==0 ? 'o':'O')},i*100);
       }
-      setTimeout(function(){document.getElementById("messageSpan").innerHTML = document.getElementById("messageSpan").innerHTML + 'l!'},1300);
-      setTimeout(function(){document.getElementById("messageSpan").innerHTML =''},2000);
+      setTimeout(function(){document.getElementById("goalSpan").innerHTML = document.getElementById("goalSpan").innerHTML + 'L!!!'},1300);
+      setTimeout(function(){document.getElementById("goalSpan").innerHTML =''},2000);
     } else {
       document.getElementById("messageSpan").style = 'color:' + (error ? 'red;' : 'white;');
       document.getElementById("messageSpan").innerHTML = message;
@@ -560,7 +560,7 @@ function disparaEventoGolJogador(playerId) {
     else if(playerId == PLAYER_TWO_ID) {
         score.playerTwo++;
     }
-    showMessage("Goooll do jogador " + (playerId == PLAYER_TWO_ID ? PLAYER_TWO_NAME:PLAYER_ONE_NAME) + " !!! Jogador " + (playerId == PLAYER_TWO_ID ? PLAYER_ONE_NAME:PLAYER_TWO_NAME) + " reposicione a bola e clique em iniciar!");
+    showMessage("Goooll!", false, playerId);
     ball.x = 320;
     ball.y = 240;
     ball.vx = 0;

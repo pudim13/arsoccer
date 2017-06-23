@@ -16,13 +16,13 @@
   color: purple;
 }
 
-#messageSpan {
+#goalSpan {
     position: absolute;
     color: white;
     font-size: 50px;
-    text-shadow: 5px 5px #000000;
-    margin-top: 300px;
-    margin-left: 10px;
+    text-shadow: 2px 2px #000000;
+    margin-top: 240px;
+    margin-left: 30px;
 }
 
 #messageSpan {
