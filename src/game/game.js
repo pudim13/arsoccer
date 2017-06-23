@@ -296,7 +296,7 @@ function validMarkers(markers) {
          hasGoal1 = true;
 
          if(markers[i].x + MEDIUM_OBJECT/2  > (AXIS_X/5)) {
-             showMessage("Gol do Jogador 1 posicionado fora da area valida!",true);
+             showMessage("Gol do Jogador 1 posicionado fora da area valida!",true, PLAYER_ONE_ID);
              return false;
          }
       }
@@ -304,7 +304,7 @@ function validMarkers(markers) {
          hasGoal2 = true;
 
          if(markers[i].x - MEDIUM_OBJECT/2  < AXIS_X - (AXIS_X/5) ) {
-             showMessage("Gol do Jogador 2 posicionado fora da area valida!",true);
+             showMessage("Gol do Jogador 2 posicionado fora da area valida!",true, PLAYER_TWO_ID);
              return false;
          }
       }
@@ -368,7 +368,10 @@ function showMessage(message,error,goal) {
     if(goal) {
       document.getElementById("goalSpan").style = 'color:' + (goal == PLAYER_ONE_ID ? 'yellow;' : 'purple;');
       document.getElementById("goalSpan").innerHTML = 'G';
-      for(var i=0;i<10;)
+      for(var i=0;i<13;i++) {
+        setTimeout(function(){document.getElementById("messageSpan").innerHTML = document.getElementById("messageSpan").innerHTML + (i%2==0 ? 'o':'O')},i*100);
+      }
+      setTimeout(function(){document.getElementById("messageSpan").innerHTML = document.getElementById("messageSpan").innerHTML + 'l!'},1300);
       setTimeout(function(){document.getElementById("messageSpan").innerHTML =''},2000);
     } else {
       document.getElementById("messageSpan").style = 'color:' + (error ? 'red;' : 'white;');
